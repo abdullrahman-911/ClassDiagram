@@ -1,0 +1,1052 @@
+@startuml
+top to bottom direction
+
+skinparam ranksep 200
+
+' ================== Interfaces I1 - I8 ==================
+
+interface "I1: IOrderAndPrescriptionManagement" as I1 {
+    +manageOrder(orderData: OrderDetails)
+    +managePrescriptions(prescriptionData: PrescriptionDetails)
+}
+interface "I2: IAppointmentAndSupportInteraction" as I2 {
+    +manageAppointments(appointmentData: AppointmentDetails)
+    +manageCustomerSupport(issueData: SupportRequest)
+}
+interface "I3: IUserAccountAndAuth" as I3 {
+    +manageUserAccount(accountUpdate: AccountUpdate)
+    +authenticateUser(credentials: LoginCredentials)
+}
+interface "I4: IMedicineAndPharmacyAsset" as I4 {
+    +manageMedicines(medicineUpdate: MedicineData)
+    +managePharmacy(pharmacyUpdate: PharmacyAsset)
+}
+interface "I5: IAdminPromotionsAndRewards" as I5 {
+    +manageDiscounts(discountData: DiscountDetails)
+    +manageLoyaltyRewards(rewardRule: RewardRule)
+    +managePromotions(promotionCampaign: CampaignData)
+}
+interface "I6: IProcessPayment" as I6 {
+    +processPayment(paymentInfo: PaymentDetails)
+    +manageTransactionInfo(transaction: TransactionRecord)
+}
+interface "I7: IAnalyticsAndPrediction" as I7 {
+    +manageAnalytics(query: AnalyticsCriteria)
+    +managePrediction(modelInput: DataInput)
+}
+interface "I8: INotificationDelivery" as I8 {
+    +manageNotification(notificationEvent: NotificationDetails)
+    +manageDelivery(deliveryRequest: DeliveryDetails)
+}
+
+' ================== Interfaces I10 - I29 ==================
+
+interface "I10: IDataPersistence" as I10 {
+    +saveEntityRecord(data: object)
+    +retrieveEntityById(id: string)
+}
+interface "I11: IOutputSystemResponse" as I11 {
+    +renderUserDashboard(viewData: DashboardData)
+    +displayTransactionResult(status: ResponseStatus)
+    +generateSystemReport(report: ReportFile)
+}
+interface "I12: IInternalDataFlow" as I12 {
+    +syncControllerData(payload: DataPacket)
+    +validateDataIntegrity(data: object)
+}
+interface "I13: IRepositoryAccess" as I13 {
+    +executeDatabaseQuery(query: string)
+    +manageDataStorage(storageInfo: StorageDetails)
+}
+interface "I14: IPaymentServiceBridge" as I14 {
+    +validatePaymentAmount(amount: decimal)
+    +confirmTransaction(txnId: string)
+}
+interface "I15: ICareFlowManagement" as I15 {
+    +trackPatientJourney(patientId: string)
+    +manageClinicalWorkflow(flowData: WorkflowSteps)
+}
+interface "I16: IUserManagementService" as I16 {
+    +authorizeAccessRole(userId: string)
+    +manageUserPrivileges(permissions: RoleDetails)
+}
+interface "I17: IMedAssistIntegration" as I17 {
+    +provideMedicalAdvice(symptoms: string)
+    +checkMedicationCompatibility(meds: MedList)
+}
+interface "I18: INotificationService" as I18 {
+    +broadcastSystemAlert(alert: AlertDetails)
+    +manageUserPreferences(pref: NotificationSettings)
+}
+interface "I19: IAssistHubInteraction" as I19 {
+    +routeSupportTicket(ticket: SupportTicket)
+    +manageAgentAssignment(agentId: string)
+}
+interface "I20: IInsightEngineAnalysis" as I20 {
+    +generateBusinessReport(period: DateRange)
+    +extractMarketInsights(data: RawData)
+}
+interface "I21: IMarketingService" as I21 {
+    +executeMarketingCampaign(campaign: Campaign)
+    +manageDiscountRules(rules: DiscountPolicy)
+}
+interface "I22: IControllerPaymentLink" as I22 {
+    +dispatchPaymentRequest(request: PaymentRequest)
+    +handlePaymentCallback(status: StatusUpdate)
+}
+interface "I23: IControllerCareFlowLink" as I23 {
+    +updateWorkflowStatus(status: string)
+    +triggerNextStep(stepId: string)
+}
+interface "I24: IControllerAuthLink" as I24 {
+    +verifyUserSession(token: string)
+    +handleLoginSuccess(userProfile: UserProfile)
+}
+interface "I25: IControllerMedAssistLink" as I25 {
+    +requestClinicalCheck(request: MedCheck)
+    +receiveMedicationValidation(result: ValidationResult)
+}
+interface "I26: IControllerNotificationLink" as I26 {
+    +triggerPushNotification(event: string)
+    +logSentNotification(log: NotificationLog)
+}
+interface "I27: IControllerAssistHubLink" as I27 {
+    +monitorTicketStatus(ticketId: string)
+    +receiveSupportResponse(response: string)
+}
+interface "I28: IControllerMarketingLink" as I28 {
+    +pushPromotionData(promo: PromotionData)
+    +trackCustomerEngagement(stats: Analytics)
+}
+interface "I29: IControllerInsightLink" as I29 {
+    +requestDataPrediction(criteria: string)
+    +receiveAnalyticalOutput(results: ReportData)
+}
+
+
+' --- Notification Service Interfaces ---
+
+    interface "I30: INotificationMainController" as I30 {
+        +orchestrateNotification(event: string)
+        +dispatchToSender(msg: Message)
+    }
+    interface "I31: INotificationOutput" as I31 {
+        +logDeliveryStatus(status: DeliveryLog)
+        +renderNotificationPreview(content: string)
+    }
+    interface "I32: INotificationSender" as I32 {
+        +sendEmail(to: string, body: string)
+        +sendSMS(phone: string, msg: string)
+    }
+    interface "I33: INotificationTemplate" as I33 {
+        +loadTemplate(templateId: string)
+        +populatePlaceholders(data: Map)
+    }
+    interface "I34: IPreferenceManager" as I34 {
+        +getUserChannels(userId: string)
+        +updateOptInStatus(preference: bool)
+    }
+    interface "I35: IEventListener" as I35 {
+        +subscribeToSystemEvent(event: string)
+        +onEventTriggered(payload: object)
+    }
+    interface "I36: IEventControllerLink" as I36 {
+        +forwardEventToLogic(eventData: object)
+        +verifyEventSource(sourceId: string)
+    }
+    interface "I37: IPreferenceControllerLink" as I37 {
+        +fetchUserNotificationSettings(userId: string)
+        +validateChannelAvailability(channel: string)
+    }
+    interface "I38: ITemplateControllerLink" as I38 {
+        +requestTemplateData(type: string)
+        +validateTemplateStructure(template: object)
+    }
+    interface "I39: ISenderControllerLink" as I39 {
+        +queueMessageForDispatch(msg: object)
+        +reportDispatchSuccess(status: bool)
+    }
+
+
+' --- CareFlow Service Interfaces ---
+
+    interface "I40: ICareFlowMainController" as I40 {
+        +processCareFlowRequest(req: Request)
+        +coordinateWorkflow(step: string)
+    }
+    interface "I41: ICareFlowOutput" as I41 {
+        +renderWorkflowVisual(flow: FlowData)
+        +exportPatientSummary(id: string)
+    }
+    interface "I42: IPrescriptionFlow" as I42 {
+        +routePrescription(prescription: object)
+        +verifyDoctorSignature(sig: string)
+    }
+    interface "I43: IOrderFlow" as I43 {
+        +initializeOrder(orderDetails: object)
+        +trackOrderStatus(orderId: string)
+    }
+    interface "I44: IDeliveryFlow" as I44 {
+        +assignCourier(deliveryId: string)
+        +updateDeliveryETA(time: datetime)
+    }
+    interface "I45: IMedicineFulfillment" as I45 {
+        +reserveMedicine(medId: string)
+        +confirmPackaging(status: bool)
+    }
+    interface "I46: IAppointmentModule" as I46 {
+        +scheduleSession(date: date, time: time)
+        +cancelAppointment(id: string)
+    }
+    interface "I47: IPrescriptionControllerLink" as I47 {
+        +updatePrescriptionStatus(id: string)
+        +fetchDoctorNotes(patientId: string)
+    }
+    interface "I48: IOrderControllerLink" as I48 {
+        +processOrderTransaction(order: object)
+        +confirmOrderPlacement(orderId: string)
+    }
+    interface "I49: IDeliveryControllerLink" as I49 {
+        +syncDeliveryLocation(trackingId: string)
+        +confirmSuccessfulDelivery(id: string)
+    }
+    interface "I50: IFulfillmentControllerLink" as I50 {
+        +checkStockAvailability(sku: string)
+        +notifyFulfillmentStatus(status: string)
+    }
+    interface "I51: IAppointmentControllerLink" as I51 {
+        +syncCalendarSlots(date: date)
+        +notifyAppointmentChange(id: string)
+    }
+
+
+' --- MedAsset Service Interfaces ---
+
+    interface "I57: IMedAssetMainController" as I57 {
+        +receiveInventoryTask(task: Task)
+        +balanceStockAcrossNodes()
+    }
+    interface "I52: IMedAssetOutput" as I52 {
+        +formatAssetReport(data: AssetData)
+        +displayInventoryStatus(status: string)
+    }
+    interface "I53: IPharmacyManagement" as I53 {
+        +processPharmacyOrder(order: Order)
+        +validatePrescription(id: string)
+    }
+    interface "I54: IMedicineCatalog" as I54 {
+        +searchMedicine(query: string)
+        +getMedicineDetails(sku: string)
+    }
+    interface "I55: IInventoryControl" as I55 {
+        +updateStockLevel(item: string, qty: int)
+        +auditInventory()
+    }
+    interface "I56: ILowStockAlerts" as I56 {
+        +checkThresholds()
+        +triggerRestockOrder(item: string)
+    }
+    interface "I58: IPharmacyControllerLink" as I58 {
+        +syncPharmacyInventory(data: object)
+        +updateOrderQueue(order: object)
+    }
+    interface "I59: ICatalogControllerLink" as I59 {
+        +fetchMedicineInfo(sku: string)
+        +updateCatalogEntry(entry: object)
+    }
+    interface "I60: IInventoryControllerLink" as I60 {
+        +logInventoryMovement(log: object)
+        +requestStockAudit(nodeId: string)
+    }
+    interface "I61: IAlertControllerLink" as I61 {
+        +pushLowStockWarning(item: string)
+        +verifyThresholdAlert(id: string)
+    }
+
+' ================== Classes ================
+class Shefaa_System
+class Input_Module
+class Output_Module
+class Controller
+class Reposatory
+class Payment_Service
+class MedAssist_Service
+class Notification_Service
+class Careflow_Service
+class Marketing_Service
+class InsightEngin_Service
+class AssistHub_Service
+class UserManagment_Service
+class Notification_input_module
+class Notification_Output_module
+' ================== Relationships ==================
+
+Shefaa_System *-- I1
+Shefaa_System *-- I2
+Shefaa_System *-- I3
+Shefaa_System *-- I4
+Shefaa_System *-- I5
+Shefaa_System *-- I6
+Shefaa_System *-- I7
+Shefaa_System *-- I8
+
+Input_Module ..|> I1
+Input_Module ..|> I2
+Input_Module ..|> I3
+Input_Module ..|> I4
+Input_Module ..|> I5
+Input_Module ..|> I6
+Input_Module ..|> I7
+Input_Module ..|> I8
+Input_Module --> I10
+
+Output_Module ..|> I11
+
+' Service Implementations
+Reposatory ..|> I13
+Payment_Service ..|> I14
+MedAssist_Service ..|> I17
+Notification_Service ..|> I18
+Careflow_Service ..|> I15
+Marketing_Service ..|> I21
+InsightEngin_Service ..|> I20
+AssistHub_Service ..|> I19
+UserManagment_Service ..|> I16
+
+' Service to Controller Links
+Reposatory --> I12
+Payment_Service --> I22
+MedAssist_Service --> I25
+Notification_Service --> I26
+Careflow_Service --> I23
+Marketing_Service --> I28
+InsightEngin_Service --> I29
+AssistHub_Service --> I27
+UserManagment_Service --> I24
+
+' Controller Implementations
+Controller ..|> I10
+Controller ..|> I12
+Controller ..|> I22
+Controller ..|> I23
+Controller ..|> I24
+Controller ..|> I25
+Controller ..|> I26
+Controller ..|> I27
+Controller ..|> I28
+Controller ..|> I29
+
+' Controller Dependencies
+Controller --> I11
+Controller --> I13
+Controller --> I14
+Controller --> I15
+Controller --> I16
+Controller --> I17
+Controller --> I18
+Controller --> I19
+Controller --> I20
+Controller --> I21
+
+'Level 2 Notification
+class NotificatinSenderMdule
+class NotificationTemplateMdule
+class PreferenceManagerModule
+class EventListnerModule
+class NotificationController
+
+NotificationController ..|> I30
+NotificationController ..|> I36
+NotificationController ..|> I37
+NotificationController ..|> I38
+NotificationController ..|> I39
+
+NotificationController --> I31
+NotificationController --> I32
+NotificationController --> I33
+NotificationController --> I34
+NotificationController --> I35
+
+Notification_Service *--I18
+Notification_input_module..|> I18
+Notification_Output_module --> I18
+NotificatinSenderMdule ..|>I32
+NotificatinSenderMdule--> I39
+NotificationTemplateMdule ..|>  I33
+NotificationTemplateMdule --> I38
+PreferenceManagerModule ..|> I34
+PreferenceManagerModule --> I37
+EventListnerModule ..|> I35
+EventListnerModule --> I36 
+
+'Level 2 CareFlow
+Careflow_Service*-- I15
+class CareFolw_InputModule
+class CareFolw_OutputModule
+class CareFolw_PrescriptionModule
+class CareFolw_OrderMoule
+class CareFolw_DeliveryModule
+class CareFolw_MedicineFulfillmentModule
+class CareFolw_AppointmentModule
+class CareFlowController
+
+CareFolw_InputModule ..|> I15
+CareFolw_OutputModule ..|> I41
+CareFolw_PrescriptionModule..|>I42
+CareFolw_OrderMoule..|>I43
+CareFolw_DeliveryModule..|>I44
+CareFolw_MedicineFulfillmentModule..|>I45
+CareFolw_AppointmentModule..|>I46
+CareFlowController..|>I40
+CareFlowController..|>I47
+CareFlowController..|>I48
+CareFlowController..|>I49
+CareFlowController..|>I50
+CareFlowController..|>I51
+
+CareFolw_InputModule --> I40
+CareFolw_OutputModule --> I15
+CareFolw_PrescriptionModule-->I47
+CareFolw_OrderMoule-->I48
+CareFolw_DeliveryModule-->I49
+CareFolw_MedicineFulfillmentModule-->I50
+CareFolw_AppointmentModule-->I51
+CareFlowController-->I41
+CareFlowController-->I42
+CareFlowController-->I43
+CareFlowController-->I44
+CareFlowController-->I45
+CareFlowController-->I46
+
+'Level 2 MedAssist_Service
+class MedAssist_InputModule
+MedAssist_Service*--I17
+class MedAssist_OutputModule
+class MedAssist_PharmacyManagementModule
+class MedAssist_MedicineCatalogModule
+class MedAssist_InventoryControlModule
+class MedAssist_LowStockAlertModule
+class MedAssistController
+
+MedAssist_InputModule ..|> I17
+MedAssist_OutputModule ..|> I52
+MedAssist_PharmacyManagementModule ..|>I53
+MedAssist_MedicineCatalogModule ..|>I54
+MedAssist_InventoryControlModule ..|>I55 
+MedAssist_LowStockAlertModule ..|>I56
+MedAssistController..|>I57
+MedAssistController..|>I58
+MedAssistController..|>I59
+MedAssistController..|>I60
+MedAssistController..|>I61
+
+MedAssistController-->I52
+MedAssistController-->I53
+MedAssistController-->I54
+MedAssistController-->I55
+MedAssistController-->I56
+MedAssist_OutputModul --> I17
+MedAssist_PharmacyManagementModule --> I58
+MedAssist_MedicineCatalogModule --> I59
+MedAssist_InventoryControlModule --> I60
+MedAssist_LowStockAlertModule --> I61
+
+'Level2 Payment_Service
+   Payment_Service*--I14
+   PaymentController..|> I14
+   class PaymentController {
+    }
+
+    ' Interfaces Definitions from Table
+    interface I14 {
+        +handlePaymentRequest(data)
+        +processRefundRequest(id)
+    }
+
+    interface I62 {
+        +getPaymentMethod(userId)
+        +verifyBalance(amount)
+    }
+
+    interface I63 {
+        +executeTransaction(amount)
+        +refund(txnId)
+    }
+
+    interface I64 {
+        +logTransaction(data)
+        +getTransactionStatus(id)
+    }
+
+    interface I65 {
+        +getInvoiceDetails(id)
+        +archiveInvoice(id)
+    }
+
+    interface I66 {
+        +createInvoicePDF(data)
+        +issueDigitalReceipt(id)
+    }
+
+    interface I67 {
+        +getPromoDetails(code)
+        +checkUserEligibility(userId)
+    }
+
+    interface I68 {
+        +applyPromoCode(total)
+        +verifyExpiry(code)
+    }
+
+    ' Flow/Control Interfaces from Diagram
+    interface I69 {
+        +initiatePayment(txn)
+        +validateTransaction(id)
+    }
+
+    interface I70 {
+        +sendToGateway(data)
+        +getGatewayResponse()
+    }
+
+    interface I71 {
+        +commitTransaction(id)
+        +rollbackFailedTxn(id)
+    }
+
+    interface I72 {
+        +triggerInvoiceGen(data)
+        +sendReceiptToUser(id)
+    }
+
+    interface I73 {
+        +formatInvoiceData(id)
+        +confirmPDFGeneration()
+    }
+
+    interface I74 {
+        +calculateTotalDiscount(id)
+        +checkLimits(code)
+    }
+
+    interface I75 {
+        +confirmCodeValidity(code)
+        +lockPromoCode(id)
+    }
+
+    ' Classes Definitions
+    class Payment
+    class PaymentProcessor
+    class Transaction
+    class Invoice
+    class InvoiceGenerator
+    class Discount
+    class DiscountValidator
+
+    ' Realization (Implementation)
+    Payment ..|> I62
+    PaymentProcessor ..|> I63
+    Transaction ..|> I64
+    Invoice ..|> I65
+    InvoiceGenerator ..|> I66
+    Discount ..|> I67
+    DiscountValidator ..|> I68
+
+    ' PaymentController Realizations (Flow/Control)
+    PaymentController ..|> I69
+    PaymentController ..|> I70
+    PaymentController ..|> I71
+    PaymentController ..|> I72
+    PaymentController ..|> I73
+    PaymentController ..|> I74
+    PaymentController ..|> I75
+
+    ' PaymentController Dependencies to Data/Input Interfaces
+    PaymentController --> I14
+    PaymentController --> I62
+    PaymentController --> I63
+    PaymentController --> I64
+    PaymentController --> I65
+    PaymentController --> I66
+    PaymentController --> I67
+    PaymentController --> I68
+
+    ' Interactions based on Diagram Flow
+    Payment --> I69
+    PaymentProcessor --> I70
+    Transaction --> I71
+    Invoice --> I72
+    InvoiceGenerator --> I73
+    Discount --> I74
+    DiscountValidator --> I75
+
+
+
+
+
+
+UserManagment_Service*--I16
+UserManagmentController..|>I16
+     class UserManagmentController {
+    }
+
+    ' Interfaces Definitions from Table
+    interface I16 {
+        +handleAuthRequest(creds)
+        +processProfileUpdate(data)
+    }
+
+    interface I76 {
+        +checkLoginAccess(creds)
+        +updatePassword(userId, pass)
+    }
+
+    interface I77 {
+        +assignRole(userId, role)
+        +getPermissions(role)
+    }
+
+    interface I78 {
+        +fetchPersonalInfo(userId)
+        +getAccountStatus(userId)
+    }
+
+    interface I79 {
+        +login(creds)
+        +mfaVerify(token)
+    }
+
+    interface I80 {
+        +modifyProfile(data)
+        +uploadAvatar(file)
+    }
+
+    ' Flow/Control Interfaces from Diagram
+    interface I81 {
+        +validateProfileData(data)
+        +syncProfileState()
+    }
+
+    interface I82 {
+        +verifyUserAuth(creds)
+        +triggerPassReset(id)
+    }
+
+    interface I83 {
+        +verifyPermissions(role)
+        +updateUserRole(id)
+    }
+
+    interface I84 {
+        +checkAccountActive(id)
+        +suspendAccount(id)
+    }
+
+    interface I85 {
+        +processMFA(token)
+        +generateSessionToken(id)
+    }
+
+    ' Classes Definitions
+    class InputHandler
+    class Credential
+    class Role
+    class Profile
+    class Authenticator
+    class ProfileManager
+
+    ' Realization (Implementation)
+    InputHandler ..|> I16
+    Credential ..|> I76
+    Role ..|> I77
+    Profile ..|> I78
+    Authenticator ..|> I79
+    ProfileManager ..|> I80
+
+    ' UserManagmentController Realizations (Flow/Control)
+    UserManagmentController ..|> I81
+    UserManagmentController ..|> I82
+    UserManagmentController ..|> I83
+    UserManagmentController ..|> I84
+    UserManagmentController ..|> I85
+
+    ' UserManagmentController Dependencies to Data/Input Interfaces
+    UserManagmentController --> I16
+    UserManagmentController --> I76
+    UserManagmentController --> I77
+    UserManagmentController --> I78
+    UserManagmentController --> I79
+    UserManagmentController --> I80
+
+    ' Interactions based on Diagram Flow
+    InputHandler --> I83
+    Credential --> I82
+    Role --> I83
+    Profile --> I84
+    Authenticator --> I85
+    ProfileManager --> I81
+
+
+
+
+AssistHub_Service*--I19
+AssistHubController..|>I19
+
+     class AssistHubController {
+    }
+
+    ' Interfaces Definitions from Table
+    interface I19 {
+        +handleSupportRequest(data)
+        +processChatSignal(msg)
+    }
+
+    interface I86 {
+        +createTicket(data)
+        +getTicketThread(id)
+    }
+
+    interface I87 {
+        +assignAgent(ticketId)
+        +escalateToManager(id)
+    }
+
+    interface I88 {
+        +initiateChat(userId)
+        +saveChatLog(sessionId)
+    }
+
+    interface I89 {
+        +sendMessage(msg)
+        +markAsRead(msgId)
+    }
+
+    interface I90 {
+        +getAgentAvailability()
+        +updateAgentStatus(id, status)
+    }
+
+    ' Flow/Control Interfaces from Diagram
+    interface I91 {
+        +assignAgentToSession(id)
+        +updateAgentWorkload()
+    }
+
+    interface I92 {
+        +routeTicketToDept(id)
+        +closeResolvedTicket(id)
+    }
+
+    interface I93 {
+        +matchTicketWithAgent(id)
+        +escalateFlow(id)
+    }
+
+    interface I94 {
+        +openSecureChannel(id)
+        +archiveChatSession(id)
+    }
+
+    interface I95 {
+        +relayMessage(msg)
+        +checkMessageStatus(id)
+    }
+
+    ' Classes Definitions
+    class InputHandler
+    class SupportTicket
+    class TicketAssignment
+    class ChatSession
+    class ChatMessage
+    class Agent
+
+    ' Realization (Implementation)
+    InputHandler ..|> I19
+    SupportTicket ..|> I86
+    TicketAssignment ..|> I87
+    ChatSession ..|> I88
+    ChatMessage ..|> I89
+    Agent ..|> I90
+
+    ' AssistHubController Realizations (Flow/Control)
+    AssistHubController ..|> I91
+    AssistHubController ..|> I92
+    AssistHubController ..|> I93
+    AssistHubController ..|> I94
+    AssistHubController ..|> I95
+
+    ' AssistHubController Dependencies to Data Interfaces
+    AssistHubController --> I19
+    AssistHubController --> I86
+    AssistHubController --> I87
+    AssistHubController --> I88
+    AssistHubController --> I89
+    AssistHubController --> I90
+
+    ' Component Interactions with Flow Interfaces
+    InputHandler --> I93
+    SupportTicket --> I92
+    TicketAssignment --> I93
+    ChatSession --> I94
+    ChatMessage --> I95
+    Agent --> I91
+
+
+
+InsightEngin_Service*--I20
+InsightEngineController..|>I20
+ class InsightEngineController {
+    }
+
+    ' Interfaces Definitions from Table
+    interface I20 {
+        +handleAnalyticsQuery(params)
+        +processFeedbackInput(data)
+    }
+
+    interface I96 {
+        +fetchLiveKpi(id)
+        +getHistoricalMetrics(period)
+    }
+
+    interface I97 {
+        +runAggregations(data)
+        +calculateGrowthRate(period)
+    }
+
+    interface I98 {
+        +getTemplate(type)
+        +saveGeneratedReport(data)
+    }
+
+    interface I99 {
+        +exportToExcel(data)
+        +sendScheduledReport(id)
+    }
+
+    interface I100 {
+        +predictDemand(params)
+        +analyzeTrend(data)
+    }
+
+    interface I101 {
+        +getUserRatings(id)
+        +storeComment(data)
+    }
+
+    interface I102 {
+        +sentimentScore(text)
+        +extractKeywords(text)
+    }
+
+    interface I103 {
+        +trackUserClick(id)
+        +logSessionTime(userId, time)
+    }
+
+    ' Flow/Control Interfaces from Diagram/Table
+    interface I104 {
+        +triggerAnalysis(id)
+        +aggregateSentiments()
+    }
+
+    interface I105 {
+        +collectUsageStats(id)
+        +summarizeSession(id)
+    }
+
+    interface I106 {
+        +refreshDashboard(id)
+        +alertOnLowKpi(val)
+    }
+
+    interface I107 {
+        +performMathOperation(data)
+        +returnAggregates()
+    }
+
+    interface I108 {
+        +compileReportData(id)
+        +finalizeReport(id)
+    }
+
+    interface I109 {
+        +triggerFileDownload(id)
+        +notifyRecipient(id)
+    }
+
+    interface I110 {
+        +runModelInference(params)
+        +savePrediction()
+    }
+
+    ' Classes Definitions
+    class InputHandler
+    class Metric
+    class MetricCalculator
+    class Report
+    class ReportExporter
+    class PredictionModel
+    class Feedback
+    class FeedbackAnalyzer
+    class UsageRecord
+
+    ' Realization (Implementation)
+    InputHandler ..|> I20
+    Metric ..|> I96
+    MetricCalculator ..|> I97
+    Report ..|> I98
+    ReportExporter ..|> I99
+    PredictionModel ..|> I100
+    Feedback ..|> I101
+    FeedbackAnalyzer ..|> I102
+    UsageRecord ..|> I103
+
+    ' InsightEngineController Realizations (Flow/Control)
+    InsightEngineController ..|> I104
+    InsightEngineController ..|> I105
+    InsightEngineController ..|> I106
+    InsightEngineController ..|> I107
+    InsightEngineController ..|> I108
+    InsightEngineController ..|> I109
+    InsightEngineController ..|> I110
+
+    ' InsightEngineController Dependencies to Data Interfaces
+    InsightEngineController --> I20
+    InsightEngineController --> I96
+    InsightEngineController --> I97
+    InsightEngineController --> I98
+    InsightEngineController --> I99
+    InsightEngineController --> I100
+    InsightEngineController --> I101
+    InsightEngineController --> I102
+    InsightEngineController --> I103
+
+    ' Interactions based on Diagram Flow
+    InputHandler --> I106
+    Metric --> I106
+    MetricCalculator --> I107
+    Report --> I108
+    ReportExporter --> I109
+    PredictionModel --> I110
+    Feedback --> I104
+    FeedbackAnalyzer --> I104
+    UsageRecord --> I105
+
+
+
+Marketing_Service*--I21
+MarkController..|>I21
+
+     class MarkController {
+    }
+
+    interface I21 {
+        +handlePromoRequest(code)
+        +processLoyaltyQuery(userId)
+    }
+
+    interface I120 {
+        +getPointHistory(userId)
+        +checkTierLevel(userId)
+    }
+
+    interface I121 {
+        +creditPoints(userId, qty)
+        +debitPoints(userId, qty)
+    }
+
+    interface I122 {
+        +fetchActiveRewards()
+        +getRewardTerms(id)
+    }
+
+    interface I123 {
+        +claimReward(rewardId)
+        +validateVoucher(code)
+    }
+
+    interface I124 {
+        +getCampaignList()
+        +getBannerAssets(id)
+    }
+
+    interface I125 {
+        +autoApplyValidPromos(userId)
+        +removePromo(code)
+    }
+
+    interface I126 {
+        +activateCampaign(id)
+        +deactivateCampaign(id)
+    }
+
+    interface I127 {
+        +evaluateEligibility(id)
+        +applyDiscountToCart()
+    }
+
+    interface I128 {
+        +distributeReward(id)
+        +checkVoucherStatus(id)
+    }
+
+    interface I129 {
+        +processRedemption(id)
+        +confirmPointDebit()
+    }
+
+    interface I130 {
+        +calculatePoints(amount)
+        +syncPointBalance(id)
+    }
+
+    interface I131 {
+        +upgradeTier(id)
+        +fetchLoyaltyHistory(id)
+    }
+
+    class MarketingInputHandler
+    class LoyaltyAccount
+    class PointTracker
+    class Reward
+    class RewardRedeemer
+    class Promotion
+    class PromotionApplier
+
+    ' Realization (Implementation)
+    MarketingInputHandler ..|> I21
+    LoyaltyAccount ..|> I120
+    PointTracker ..|> I121
+    Reward ..|> I122
+    RewardRedeemer ..|> I123
+    Promotion ..|> I124
+    PromotionApplier ..|> I125
+
+    ' Controller Realizations
+    MarkController ..|> I126
+    MarkController ..|> I127
+    MarkController ..|> I128
+    MarkController ..|> I129
+    MarkController ..|> I130
+    MarkController ..|> I131
+
+    ' Controller Dependencies
+    MarkController --> I120
+    MarkController --> I121
+    MarkController --> I122
+    MarkController --> I123
+    MarkController --> I124
+    MarkController --> I125
+    MarkController --> I21
+
+    ' Interactions
+    MarketingInputHandler --> I130
+    LoyaltyAccount --> I131
+    PointTracker --> I130
+    Reward --> I128
+    RewardRedeemer --> I129
+    Promotion --> I127
+    PromotionApplier --> I126
+
+@enduml
